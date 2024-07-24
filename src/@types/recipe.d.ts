@@ -1,7 +1,7 @@
 // recipe.d.ts
 
 // Représente un ingrédient utilisé dans une recette
-interface Ingredient {
+export interface Ingredient {
     id: number;       // Identifiant unique de l'ingrédient
     quantity: number | string; // Quantité de l'ingrédient (peut être un nombre ou une chaîne, par exemple 'zeste')
     unit: string;     // Unité de mesure (g, ml, pincée, etc.)
@@ -9,7 +9,7 @@ interface Ingredient {
   }
   
   // Représente une recette de cuisine
-  interface Recipe {
+ export interface IRecipe {
     id: number;                   // Identifiant unique de la recette
     title: string;                // Titre de la recette
     slug: string;                 // Slug de la recette (URL-friendly)
@@ -22,5 +22,5 @@ interface Ingredient {
   }
   
   // Représente une collection de recettes
-  type Recipes = Recipe[];
+ export type Recipes = Recipe[];
   
