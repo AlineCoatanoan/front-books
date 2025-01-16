@@ -1,53 +1,47 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 import { Link, Route, Routes } from "react-router-dom";
 import axios from "axios";
-import logo from "./assets/logo.png";
-import { IRecipe, IIngredient } from "./@types/recipe";
-import RecipeList from './components/Recipes/RecipeList';
-import RecipeCard from './components/Recipes/RecipeCard';
-import Header from "./components/Header";
+import logo from "./assets/logo.gif";
+import { IBook } from "./@types/book";
+import BookList from './components/Books/BookList';
+import BookCard from './components/Books/BookCard';
 
 function App() {
-  const [recipes, setRecipes] = useState<IRecipe[]>([]);
-  const [cards, setCards] = useState<IIngredient[]>([]);
-  
-  const fetchRecipes = async () => {
+  const [books, setBooks] = useState<IBook[]>([]);
+
+  const fetchBooks = async () => {
     try {
-      const response = await axios.get("https://orecipesapi.onrender.com/api/recipes");
-      setRecipes(response.data);
+      const response = await axios.get("https://api-books-mu.vercel.app");
+      setBooks(response.data);
     } catch (e) {
       console.log("erreur");
     }
   };
 
   useEffect(() => {
-    fetchRecipes()
-   
+    fetchBooks();
   }, []);
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-[#F1E1C6]"> {/* Utilisation d'un beige doux pour le fond général */}
 
-
-    <Header />
-
-    {/* Sidebar */}
-    <div className="w-80 bg-gradient-to-r from-blue-500 to-teal-500 text-white shadow-lg h-full fixed top-0 left-0 flex flex-col">
-        <div className="flex flex-col items-center justify-start p-8 mt-16 border-b border-white h-full"> {/* Ajusté padding et margin top */}
-          <img src={logo} className="w-32 h-32 rounded-full mb-6" alt="Logo" /> {/* Ajusté margin bottom */}
-          <span className="text-4xl font-bold mb-8">O'Recipes</span> {/* Ajusté text size et margin bottom */}
+      {/* Sidebar */}
+      <div className="w-80 bg-gradient-to-b from-[#8B5E3C] to-[#3C2F1E] text-white shadow-lg h-full fixed top-0 left-0 flex flex-col"> {/* Dégradé bois */}
+        <div className="flex flex-col items-center justify-start p-8 mt-6 border-b border-white h-full"> 
+          <img src={logo} className="w-32 h-32 rounded-full mb-6" alt="Logo" /> 
+          <span className="text-4xl font-bold mb-8 text-[#F1E1C6]">My Books</span> 
           <nav className="w-full">
-            <Link to="/recipes" className="block py-3 px-5 rounded-lg text-lg font-medium bg-white border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300">
-              <span className="text-lg font-semibold">Accueil</span> {/* Ajusté margin top */}
+            <Link to="/" className="block py-3 px-5 rounded-lg text-lg font-medium bg-[#F1E1C6] border-2 border-[#8B5E3C] text-[#8B5E3C] hover:bg-[#8B5E3C] hover:text-white transition-all duration-300">
+              <span className="text-lg font-semibold">Accueil</span> 
             </Link>
-            <div className="mt-6"> {/* Ajusté margin top */}
-              {recipes.map(recipe => (
+            <div className="mt-6"> 
+              {books.map(book => (
                 <Link 
-                  key={recipe.id}
-                  to={`/recipe/${recipe.id}`} 
-                  className="block py-3 px-4 rounded-lg hover:bg-white hover:text-blue-500 transition-colors duration-200"
+                  key={book.id}
+                  to={`/book/${book.id}`} 
+                  className="block py-3 px-4 rounded-lg hover:bg-[#F1E1C6] hover:text-[#8B5E3C] transition-colors duration-200"
                 >
-                  <span className="text-md">{recipe.title}</span>
+                  <span className="text-md">{book.title}</span>
                 </Link>
               ))}
             </div>
@@ -55,16 +49,15 @@ function App() {
         </div>
       </div>
 
-
       {/* Main Content */}
-      <div className="flex-1 ml-80 pt-16"> {/* Ajout de `ml-80` pour le padding gauche correspondant à la largeur de la sidebar et `pt-16` pour le padding supérieur */}
+      <div className="flex-1 ml-80 pt-16"> {/* Padding gauche pour laisser de l'espace à la sidebar */}
         <Routes>
-          <Route path="/recipes" element={<RecipeList recipes={recipes} />} />
-          <Route path="/recipe/:id" element={<RecipeCard allRecipes={recipes} />} />
+          <Route path="/" element={<BookList books={books} />} />
+          <Route path="/book/:id" element={<BookCard allBooks={books} />} />
         </Routes>
       </div>
     </div>
   );
 }
 
-export default App
+export default App;
