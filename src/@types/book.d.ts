@@ -12,5 +12,5 @@
     avis: string;
   }
   
- export type Books = Book[];
+ export type Books = IBook[];
   
