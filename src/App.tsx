@@ -15,7 +15,7 @@ function App() {
       console.log("Réponse de l'API :", response.data);
   
       if (Array.isArray(response.data)) {
-        setBooks(response.data); // Assure que c'est bien un tableau
+        setBooks(Array.isArray(response.data) ? response.data : []);
       } else {
         console.error("Réponse inattendue : attendu un tableau", response.data);
         setBooks([]); // Si la réponse n'est pas un tableau, on vide la liste
