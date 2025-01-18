@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, Route, Routes } from "react-router-dom";
 import axios from "axios";
-import logo from "./assets/logo.gif";
+import logo from "/logo.gif";
 import { IBook } from "./@types/book";
 import BookList from './components/Books/BookList';
 import BookCard from './components/Books/BookCard';
@@ -11,19 +11,28 @@ function App() {
 
   const fetchBooks = async () => {
     try {
-      const response = await axios.get("https://api-books-mu.vercel.app");
-      setBooks(response.data);
+      const response = await axios.get("https://api-books-mu.vercel.app"); // Ajout de "https://" pour une URL valide
+      console.log("Réponse de l'API :", response.data);
+  
+      if (Array.isArray(response.data)) {
+        setBooks(response.data); // Assure que c'est bien un tableau
+      } else {
+        console.error("Réponse inattendue : attendu un tableau", response.data);
+        setBooks([]); // Si la réponse n'est pas un tableau, on vide la liste
+      }
     } catch (e) {
-      console.log("erreur");
+      console.error("Erreur lors de la récupération des livres :", e);
+      setBooks([]); // Gestion d'erreur : on vide la liste pour éviter les crashs
     }
   };
+  
 
   useEffect(() => {
     fetchBooks();
   }, []);
 
   return (
-    <div className="flex h-screen bg-[#F1E1C6]"> {/* Utilisation d'un beige doux pour le fond général */}
+    <div className="flex h-screen bg-[#F1E1C6]">
 
       {/* Sidebar */}
       <div className="w-80 bg-gradient-to-b from-[#8B5E3C] to-[#3C2F1E] text-white shadow-lg h-full fixed top-0 left-0 flex flex-col"> {/* Dégradé bois */}
@@ -34,17 +43,22 @@ function App() {
             <Link to="/" className="block py-3 px-5 rounded-lg text-lg font-medium bg-[#F1E1C6] border-2 border-[#8B5E3C] text-[#8B5E3C] hover:bg-[#8B5E3C] hover:text-white transition-all duration-300">
               <span className="text-lg font-semibold">Accueil</span> 
             </Link>
-            <div className="mt-6"> 
-              {books.map(book => (
-                <Link 
-                  key={book.id}
-                  to={`/book/${book.id}`} 
-                  className="block py-3 px-4 rounded-lg hover:bg-[#F1E1C6] hover:text-[#8B5E3C] transition-colors duration-200"
-                >
-                  <span className="text-md">{book.title}</span>
-                </Link>
-              ))}
-            </div>
+            <div className="mt-6">
+  {Array.isArray(books) && books.length > 0 ? (
+    books.map(book => (
+      <Link 
+        key={book.id}
+        to={`/book/${book.id}`} 
+        className="block py-3 px-4 rounded-lg hover:bg-[#F1E1C6] hover:text-[#8B5E3C] transition-colors duration-200"
+      >
+        <span className="text-md">{book.title}</span>
+      </Link>
+    ))
+  ) : (
+    <p className="text-white">Aucun livre trouvé.</p> 
+  )}
+</div>
+
           </nav>
         </div>
       </div>
