@@ -20,7 +20,7 @@ export default function BookCard({ allBooks }: CardProps) {
       <div className="bg-white shadow-md rounded-lg overflow-hidden max-w-4xl w-full">
         {/* Image du livre */}
         <img
-          src={`http://localhost:3000/images/${bookToDisplay.thumbnail}`}
+          src={`https://api-books-mu.vercel.app/images/${bookToDisplay.thumbnail}`}
           alt={bookToDisplay.title}
           className="w-full max-h-72 object-contain mx-auto" // Ajuste la taille sans couper l'image
         />

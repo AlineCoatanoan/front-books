@@ -11,20 +11,23 @@ function App() {
 
   const fetchBooks = async () => {
     try {
-      const response = await axios.get("https://api-books-mu.vercel.app"); // Ajout de "https://" pour une URL valide
+      const response = await axios.get(import.meta.env.VITE_API_URL);
       console.log("Réponse de l'API :", response.data);
   
       if (Array.isArray(response.data)) {
-        setBooks(Array.isArray(response.data) ? response.data : []);
+        setBooks(response.data);
       } else {
-        console.error("Réponse inattendue : attendu un tableau", response.data);
-        setBooks([]); // Si la réponse n'est pas un tableau, on vide la liste
+        console.error("Réponse inattendue :", response.data);
+        setBooks([]);
       }
     } catch (e) {
       console.error("Erreur lors de la récupération des livres :", e);
-      setBooks([]); // Gestion d'erreur : on vide la liste pour éviter les crashs
+      setBooks([]);
     }
   };
+  
+  
+  
   
 
   useEffect(() => {

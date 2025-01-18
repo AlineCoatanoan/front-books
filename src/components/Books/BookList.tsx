@@ -19,7 +19,7 @@ function BookList({ books }: BookProps) {
           >
             <Link to={`/book/${book.id}`} className="block">
               <img
-                src={`http://localhost:3000/images/${book.thumbnail}`}
+                src={`https://api-books-mu.vercel.app/images/${book.thumbnail}`}
                 alt={book.title}
                 className="w-full h-48 object-contain"  // Utilisation de object-contain pour éviter la coupe des images
               />
