@@ -11,13 +11,15 @@ function App() {
 
   const fetchBooks = async () => {
     try {
-      const response = await axios.get(import.meta.env.VITE_API_URL);
-      console.log("Réponse de l'API :", response.data);
-  
+      const response = await axios.get("https://api-books-mu.vercel.app");
+      console.log("Réponse brute de l'API :", response.data);
+      
       if (Array.isArray(response.data)) {
+        // Vérifie que chaque élément respecte la structure attendue
+        console.log("Livres reçus :", response.data);
         setBooks(response.data);
       } else {
-        console.error("Réponse inattendue :", response.data);
+        console.error("Réponse inattendue : ", response.data);
         setBooks([]);
       }
     } catch (e) {
@@ -25,8 +27,6 @@ function App() {
       setBooks([]);
     }
   };
-  
-  
   
   
 
