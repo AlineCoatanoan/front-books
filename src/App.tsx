@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, Route, Routes } from "react-router-dom";
-import logo from "/logo.gif";
+import { Route, Routes } from "react-router-dom";
 import { IBook } from "./@types/book";
 import BookList from './components/Books/BookList';
 import BookCard from './components/Books/BookCard';
