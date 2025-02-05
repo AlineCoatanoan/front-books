@@ -19,11 +19,7 @@ export default function BookCard({ allBooks }: CardProps) {
     <div className="bg-[#F1E1C6] min-h-screen flex justify-center items-start pt-8">
       <div className="bg-white shadow-md rounded-lg overflow-hidden max-w-4xl w-full">
         {/* Image du livre */}
-        <img
-          src={`https://api-books-alpha.vercel.app/${bookToDisplay.thumbnail}`} // Correction de l'URL de l'image
-          alt={bookToDisplay.title}
-          className="w-full max-h-72 object-contain mx-auto"
-        />
+        <img src={`https://api-books-alpha.vercel.app${bookToDisplay.image}`} alt={bookToDisplay.title} />
 
         <div className="p-6">
           {/* Titre du livre */}

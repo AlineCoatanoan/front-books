@@ -4,7 +4,7 @@
     id: number;                   
     title: string;               
     slug: string;              
-    thumbnail: string;           
+    image: string;           
     author: string;              
     difficulty: string;           
     description: string; 
