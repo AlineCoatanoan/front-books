@@ -19,10 +19,10 @@ function BookList({ books }: BookProps) {
           >
             <Link to={`/book/${book.id}`} className="block">
             <img
-                src={`https://api-books-alpha.vercel.app${book.image}`}  // Préfixe l'URL de l'image avec l'URL de ton API
-                alt={book.title}
-                className="w-full h-64 object-cover"  // Ajout d'une classe pour gérer la taille de l'image
-              />
+              src={book.image}  // L'URL complète de l'image est déjà stockée dans book.image
+              alt={book.title}
+              className="w-full h-64 object-cover"
+            />
               <div className="p-6">
                 <h2 className="text-xl font-semibold mb-3 text-[#3C2F1E]"> {/* Texte brun foncé pour les titres */}
                   {book.title}
