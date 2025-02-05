@@ -9,7 +9,10 @@ function App() {
 
   const fetchBooks = async () => {
     try {
-      const response = await fetch('https://api-books-alpha.vercel.app/');
+      const response = await fetch('https://api-books-alpha.vercel.app/', {
+        credentials: 'include', // Permet l'envoi des cookies, si nécessaire
+      });
+      
       if (!response.ok) {
         throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
       }
