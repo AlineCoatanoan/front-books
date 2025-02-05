@@ -10,28 +10,18 @@ function App() {
 
   const fetchBooks = async () => {
     try {
-      console.log("Tentative de récupération des livres...");
-      const response = await fetch("https://api-books-mu.vercel.app"); // Vérifier l'URL de l'API
-  
+      const response = await fetch('https://api-books-alpha.vercel.app/');
       if (!response.ok) {
-        throw new Error(`Erreur HTTP: ${response.status}`);
+        throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
       }
-  
       const data = await response.json();
-      console.log("Données de l'API :", data); // Vérifie les données reçues ici
-  
-      if (Array.isArray(data)) {
-        console.log("Livres reçus :", data); // Vérifie que data est un tableau
-        setBooks(data);
-      } else {
-        console.error("Réponse inattendue : ", data);
-        setBooks([]);
-      }
-    } catch (e) {
-      console.error("Erreur lors de la récupération des livres :", e);
-      setBooks([]); // Si une erreur se produit, on vide les livres
+      console.log('Données reçues:', data);
+      setBooks(data); // 🔥 Met à jour l'état pour que les livres s'affichent
+    } catch (error) {
+      console.error('Erreur lors de la requête:', error);
     }
   };
+  
 
   useEffect(() => {
     fetchBooks();
@@ -39,8 +29,10 @@ function App() {
 
   return (
     <div>
-      <h1>Liste des livres</h1>
-      <BookList books={books} />
+      <Routes>
+      <Route path="/" element={<BookList books={books} />} />
+      <Route path="/book/:id" element={<BookCard allBooks={books} />} />
+    </Routes>
     </div>
   );
 }

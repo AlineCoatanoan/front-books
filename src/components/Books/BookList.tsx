@@ -18,12 +18,11 @@ function BookList({ books }: BookProps) {
             className="bg-white shadow-lg rounded-lg overflow-hidden transform transition-transform duration-300 hover:scale-105"
           >
             <Link to={`/book/${book.id}`} className="block">
-              <img
-                src={`https://api-books-mu.vercel.app/images/${book.thumbnail}`}
-                alt={book.title}
-                className="w-full h-48 object-contain"  // Utilisation de object-contain pour éviter la coupe des images
-              />
-
+            <img
+              src={`https://api-books-alpha.vercel.app/images${book.thumbnail}`} // 🔥 Assure-toi que ton API renvoie le bon chemin
+              alt={book.title}
+              className="w-full h-48 object-contain"
+            />
               <div className="p-6">
                 <h2 className="text-xl font-semibold mb-3 text-[#3C2F1E]"> {/* Texte brun foncé pour les titres */}
                   {book.title}

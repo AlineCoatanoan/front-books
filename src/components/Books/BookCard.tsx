@@ -20,9 +20,9 @@ export default function BookCard({ allBooks }: CardProps) {
       <div className="bg-white shadow-md rounded-lg overflow-hidden max-w-4xl w-full">
         {/* Image du livre */}
         <img
-          src={`https://api-books-mu.vercel.app/images/${bookToDisplay.thumbnail}`}
+          src={`https://api-books-alpha.vercel.app/${bookToDisplay.thumbnail}`} // Correction de l'URL de l'image
           alt={bookToDisplay.title}
-          className="w-full max-h-72 object-contain mx-auto" // Ajuste la taille sans couper l'image
+          className="w-full max-h-72 object-contain mx-auto"
         />
 
         <div className="p-6">
@@ -39,7 +39,9 @@ export default function BookCard({ allBooks }: CardProps) {
           <p className="text-lg text-gray-700 mb-6">{bookToDisplay.description}</p>
 
           {/* Genre du livre */}
-          <p className="text-sm text-gray-500 mb-4">Genre: {bookToDisplay.genres.join(', ')}</p>
+          {bookToDisplay.genres?.length > 0 && (
+            <p className="text-sm text-gray-500 mb-4">Genre: {bookToDisplay.genres.join(', ')}</p>
+          )}
 
           {/* Avis sur le livre */}
           <h3 className="text-xl font-semibold text-gray-800 mb-2">Avis</h3>
