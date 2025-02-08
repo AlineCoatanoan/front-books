@@ -23,7 +23,7 @@ function BookList({ books }: BookProps) {
 
   // Récupérer les genres depuis l'API avec fetch
   useEffect(() => {
-    fetch(`${API_URL}/genres`)
+    fetch(`${API_URL}/books`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
