@@ -31,12 +31,14 @@ function BookList({ books }: BookProps) {
         return response.json();
       })
       .then((data) => {
+        console.log("Genres récupérés:", data); // Ajouter un log ici
         setGenres(data);
       })
       .catch((error) => {
         console.error("Error fetching genres:", error);
       });
   }, []);
+  
 
   // Animation pour les livres (rebond)
   const bookVariants = {
