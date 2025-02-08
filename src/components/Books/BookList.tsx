@@ -10,32 +10,37 @@ interface BookProps {
 function BookList({ books }: BookProps) {
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [genres, setGenres] = useState<string[]>([]);
+  const [fetchedBooks, setFetchedBooks] = useState<IBook[]>([]);
 
   // Fonction pour filtrer les livres par genre
   const filteredBooks = selectedGenre
-    ? books.filter((book) => book.genres.includes(selectedGenre))
-    : books;
+    ? fetchedBooks.filter((book) => book.genres.includes(selectedGenre))
+    : fetchedBooks;
 
   const API_URL =
     import.meta.env.MODE === "development"
       ? "http://localhost:3000"
       : "https://api-books-alpha.vercel.app";
 
-  // Récupérer les genres depuis l'API avec fetch
+  // Récupérer les genres et les livres depuis l'API avec fetch
   useEffect(() => {
-    fetch(`${API_URL}/books`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
+    // Récupérer les livres et les genres en parallèle
+    Promise.all([
+      fetch(`${API_URL}/`),       // Récupère les livres
+      fetch(`${API_URL}/genres`), // Récupère les genres
+    ])
+      .then(([booksResponse, genresResponse]) => {
+        if (!booksResponse.ok || !genresResponse.ok) {
+          throw new Error("Une des réponses n'est pas correcte");
         }
-        return response.json();
+        return Promise.all([booksResponse.json(), genresResponse.json()]);
       })
-      .then((data) => {
-        console.log("Genres récupérés:", data); // Ajouter un log ici
-        setGenres(data);
+      .then(([booksData, genresData]) => {
+        setFetchedBooks(booksData);  // Mettre à jour les livres récupérés
+        setGenres(genresData);       // Mettre à jour les genres
       })
       .catch((error) => {
-        console.error("Error fetching genres:", error);
+        console.error("Erreur lors de la récupération des données:", error);
       });
   }, []);
 
