@@ -3,50 +3,42 @@ import { Link } from "react-router-dom";
 import { IBook } from "../../@types/book";
 import { motion } from "framer-motion";
 
-function BookList() {
+interface BookProps {
+  books: IBook[];
+}
+
+function BookList({ books }: BookProps) {
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [genres, setGenres] = useState<string[]>([]);
-  const [fetchedBooks, setFetchedBooks] = useState<IBook[]>([]);
 
   // Fonction pour filtrer les livres par genre
   const filteredBooks = selectedGenre
-    ? fetchedBooks.filter((book) => book.genres.includes(selectedGenre))
-    : fetchedBooks;
+    ? books.filter((book) => book.genres.includes(selectedGenre))
+    : books;
 
   const API_URL =
     import.meta.env.MODE === "development"
       ? "http://localhost:3000"
       : "https://api-books-alpha.vercel.app";
 
-  // Récupérer les genres et les livres depuis l'API avec fetch
+  // Récupérer les genres depuis l'API avec fetch
   useEffect(() => {
-    // Récupérer les livres et les genres en parallèle
-    Promise.all([
-      fetch(`${API_URL}/`),       // Récupère les livres
-      fetch(`${API_URL}/genres`), // Récupère les genres
-    ])
-      .then(([booksResponse, genresResponse]) => {
-        if (!booksResponse.ok) {
-          console.error("Erreur lors de la récupération des livres:", booksResponse.status);
-          throw new Error("Erreur lors de la récupération des livres");
+    fetch(`${API_URL}/genres`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
         }
-        if (!genresResponse.ok) {
-          console.error("Erreur lors de la récupération des genres:", genresResponse.status);
-          throw new Error("Erreur lors de la récupération des genres");
-        }
-        return Promise.all([booksResponse.json(), genresResponse.json()]);
+        return response.json();
       })
-      .then(([booksData, genresData]) => {
-        console.log('Livres reçus:', booksData);  // Log les livres reçus
-        console.log('Genres reçus:', genresData); // Log les genres reçus
-        setFetchedBooks(booksData);  // Mettre à jour les livres récupérés
-        setGenres(genresData);       // Mettre à jour les genres
+      .then((data) => {
+        console.log("Genres récupérés:", data); // Ajouter un log ici
+        setGenres(data);
       })
       .catch((error) => {
-        console.error("Erreur lors de la récupération des données:", error);
+        console.error("Error fetching genres:", error);
       });
   }, []);
-  
+
   // Animation pour les livres (rebond)
   const bookVariants = {
     hidden: { opacity: 0, scale: 0.8 },

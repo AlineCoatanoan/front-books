@@ -11,9 +11,9 @@ function App() {
   const [books, setBooks] = useState<IBook[]>([]);
 
   const API_URL =
-    import.meta.env.MODE === "development"
-      ? "http://localhost:3000"
-      : "https://api-books-alpha.vercel.app";
+  import.meta.env.MODE === "development"
+    ? "http://localhost:3000"
+    : "https://api-books-alpha.vercel.app";
 
   const fetchBooks = async () => {
     try {
@@ -31,6 +31,7 @@ function App() {
       console.error('Erreur lors de la requête:', error);
     }
   };
+  
 
   useEffect(() => {
     fetchBooks();
@@ -40,13 +41,11 @@ function App() {
     <div>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
-        {/* Passer 'books' à BookList directement */}
-        <Route path="/books" element={<BookList />} />
-        {/* Passer 'books' à BookCard directement */}
-        <Route path="/book/:id" element={<BookCard allBooks={books} />} />
-      </Routes>
-      <Footer />
+      <Route path = "/" element = {<Home />} />
+      <Route path="/books" element={<BookList books={books} />} />
+      <Route path="/book/:id" element={<BookCard allBooks={books} />} />
+    </Routes>
+    <Footer />
     </div>
   );
 }
