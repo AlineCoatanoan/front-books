@@ -26,12 +26,19 @@ function BookList() {
       fetch(`${API_URL}/genres`), // Récupère les genres
     ])
       .then(([booksResponse, genresResponse]) => {
-        if (!booksResponse.ok || !genresResponse.ok) {
-          throw new Error("Une des réponses n'est pas correcte");
+        if (!booksResponse.ok) {
+          console.error("Erreur lors de la récupération des livres:", booksResponse.status);
+          throw new Error("Erreur lors de la récupération des livres");
+        }
+        if (!genresResponse.ok) {
+          console.error("Erreur lors de la récupération des genres:", genresResponse.status);
+          throw new Error("Erreur lors de la récupération des genres");
         }
         return Promise.all([booksResponse.json(), genresResponse.json()]);
       })
       .then(([booksData, genresData]) => {
+        console.log('Livres reçus:', booksData);  // Log les livres reçus
+        console.log('Genres reçus:', genresData); // Log les genres reçus
         setFetchedBooks(booksData);  // Mettre à jour les livres récupérés
         setGenres(genresData);       // Mettre à jour les genres
       })
@@ -39,7 +46,7 @@ function BookList() {
         console.error("Erreur lors de la récupération des données:", error);
       });
   }, []);
-
+  
   // Animation pour les livres (rebond)
   const bookVariants = {
     hidden: { opacity: 0, scale: 0.8 },
