@@ -26,7 +26,7 @@ function BookList({ books }: BookProps) {
   // Récupérer les genres depuis l'API
   useEffect(() => {
     axios
-      .get(`${API_URL}/genres`) // Ajoute bien le chemin "/genres"
+      .get(`${API_URL}/genres`) 
       .then((response) => {
         setGenres(response.data);
       })
@@ -58,7 +58,7 @@ function BookList({ books }: BookProps) {
       </h1>
 
       {/* Filtre par genre */}
-      <div className="mb-6 text-center">
+      <div className="mb-6 text-center flex justify-center items-center">
         <label htmlFor="genreFilter" className="text-lg font-semibold text-[#3C2F1E]">
           Filtrer par genre :
         </label>
@@ -66,7 +66,7 @@ function BookList({ books }: BookProps) {
           id="genreFilter"
           className="ml-2 p-2 rounded-lg border border-[#3C2F1E] focus:outline-none"
           onChange={(e) => setSelectedGenre(e.target.value)}
-          value={selectedGenre || ""}
+          value={selectedGenre ?? ""}
         >
           <option value="">Tous</option>
           {genres.map((genre) => (
@@ -76,6 +76,8 @@ function BookList({ books }: BookProps) {
           ))}
         </select>
       </div>
+
+
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 pt-16">
         {filteredBooks.map((book) => (
