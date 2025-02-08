@@ -3,11 +3,7 @@ import { Link } from "react-router-dom";
 import { IBook } from "../../@types/book";
 import { motion } from "framer-motion";
 
-interface BookProps {
-  books: IBook[];
-}
-
-function BookList({ books }: BookProps) {
+function BookList() {
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [genres, setGenres] = useState<string[]>([]);
   const [fetchedBooks, setFetchedBooks] = useState<IBook[]>([]);
