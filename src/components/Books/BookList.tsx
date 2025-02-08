@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { IBook } from "../../@types/book";
 import { motion } from "framer-motion";
@@ -9,35 +9,16 @@ interface BookProps {
 
 function BookList({ books }: BookProps) {
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
-  const [genres, setGenres] = useState<string[]>([]);
+
+  // Extraire les genres uniques des livres
+  const genres = Array.from(
+    new Set(books.flatMap((book) => book.genres))
+  );
 
   // Fonction pour filtrer les livres par genre
   const filteredBooks = selectedGenre
     ? books.filter((book) => book.genres.includes(selectedGenre))
     : books;
-
-  const API_URL =
-    import.meta.env.MODE === "development"
-      ? "http://localhost:3000"
-      : "https://api-books-alpha.vercel.app";
-
-  // Récupérer les genres depuis l'API avec fetch
-  useEffect(() => {
-    fetch(`${API_URL}/genres`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Genres récupérés:", data); // Ajouter un log ici
-        setGenres(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching genres:", error);
-      });
-  }, []);
 
   // Animation pour les livres (rebond)
   const bookVariants = {
