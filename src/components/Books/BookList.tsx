@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { IBook } from "../../@types/book";
 import { motion } from "framer-motion";
-import axios from "axios";
 
 interface BookProps {
   books: IBook[];
@@ -17,24 +16,27 @@ function BookList({ books }: BookProps) {
     ? books.filter((book) => book.genres.includes(selectedGenre))
     : books;
 
-    const API_URL =
-  import.meta.env.MODE === "development"
-    ? "http://localhost:3000"
-    : "https://api-books-alpha.vercel.app";
+  const API_URL =
+    import.meta.env.MODE === "development"
+      ? "http://localhost:3000"
+      : "https://api-books-alpha.vercel.app";
 
-
-  // Récupérer les genres depuis l'API
+  // Récupérer les genres depuis l'API avec fetch
   useEffect(() => {
-    axios
-      .get(`${API_URL}/genres`) 
+    fetch(`${API_URL}/genres`)
       .then((response) => {
-        setGenres(response.data);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setGenres(data);
       })
       .catch((error) => {
         console.error("Error fetching genres:", error);
       });
   }, []);
-  
 
   // Animation pour les livres (rebond)
   const bookVariants = {
@@ -76,8 +78,6 @@ function BookList({ books }: BookProps) {
           ))}
         </select>
       </div>
-
-
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 pt-16">
         {filteredBooks.map((book) => (
