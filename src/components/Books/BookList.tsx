@@ -17,9 +17,16 @@ function BookList({ books }: BookProps) {
     ? books.filter((book) => book.genres.includes(selectedGenre))
     : books;
 
+    const API_URL =
+  import.meta.env.MODE === "development"
+    ? "http://localhost:3000"
+    : "https://api-books-alpha.vercel.app";
+
+
   // Récupérer les genres depuis l'API
   useEffect(() => {
-    axios.get("http://localhost:3000/genres")  // Ajuste l'URL si nécessaire
+    axios
+      .get(`${API_URL}/genres`) // Ajoute bien le chemin "/genres"
       .then((response) => {
         setGenres(response.data);
       })
@@ -27,6 +34,7 @@ function BookList({ books }: BookProps) {
         console.error("Error fetching genres:", error);
       });
   }, []);
+  
 
   // Animation pour les livres (rebond)
   const bookVariants = {
